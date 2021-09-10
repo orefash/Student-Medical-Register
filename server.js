@@ -164,6 +164,22 @@ app.post("/new-nurse", (request, response) => {
   }
 });
 
+app.get("/get-nurses", (request, response) => {
+  
+  get_nurses( function(status) {
+    
+  console.log(status);
+    
+    if (status !== -1) {
+     
+      return status;
+    } else {
+      return "error";
+    }
+  });
+  
+});
+
 app.post("/sign-in", (request, response) => {
   var params = request.body;
   var sess = request.session;
@@ -402,9 +418,10 @@ function update_student(data, status) {
 }
 
 function add_nurse(data, status) {
-  var query_vals = `("${data.fname}", "${data.lname}", "${data.level}", "${data.uname}", "${data.upass}")`;
+  var query_vals = `("${data.fname}", "${data.lname}", "${data.level}", "${data.uname}", "${data.pass}")`;
+  console.log(query_vals)
   var query =
-    "INSERT INTO nurses ( fname, lname, level, uname, upass) VALUES " +
+    "INSERT INTO nurses ( nfname, nlname, level, uname, upass) VALUES " +
     query_vals;
   db.serialize(() => {
     db.run(query, function(err) {
@@ -419,6 +436,27 @@ function add_nurse(data, status) {
       // get the last insert id
     });
   });
+}
+
+function get_nurses(data) {
+  db.all(
+    "SELECT * from nurses",
+    // "SELECT * from nurses where uname = '" + un + "' AND upass = '" + pass + "'",
+    (err, rows) => {
+      console.log(rows);
+      if (err) {
+        console.log(err.message);
+        data(-1);
+      } else {
+        if(rows.length>0){          
+        data(rows[0]);
+        }else{
+          
+        data(-1);
+        }
+      }
+    }
+  );
 }
 
 function get_nurse(un, pass, data) {
