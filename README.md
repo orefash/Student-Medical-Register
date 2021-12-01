@@ -15,7 +15,7 @@
   <h3 align="center">CRC student medicals dashboard</h3>
 
   <p align="center">
-    A simple dashboard built for school nurses to track medical history of students 
+    A simple web portal built for school nurses to track medical history of students 
     <br />
     <a href="https://github.com/orefash/crc-clinic"><strong>Explore the docs »</strong></a>
     <br />
